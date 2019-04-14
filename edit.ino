@@ -2,6 +2,8 @@ int motorPin = 9;
 int lightControl = 10;
 //int circuitDetection = 4;
 int circuitDetection = A0;
+int initialSetup = 0;
+
 void setup(){
    Serial.begin(9600); 
     pinMode(motorPin, OUTPUT);
@@ -16,7 +18,13 @@ void setup(){
 int val;
 //boolean newData = false;
 void loop(){
-  val = analogRead(circuitDetection);
+  if(initialSetup == 0){
+     digitalWrite(motorPin, HIGH);
+     digitalWrite(lightControl, HIGH);
+     //delay(8000);
+     initialSetup += 1;
+  } else {
+    val = analogRead(circuitDetection);
   //val = digitalRead(circuitDetection);
  // Serial.println(val);
   
@@ -36,8 +44,8 @@ void loop(){
      Serial.write("L");
      delay(200);
    } else if (val < 50 ){
-      digitalWrite(motorPin, LOW);
-      digitalWrite(lightControl, LOW); 
+      //digitalWrite(motorPin, LOW);
+      //digitalWrite(lightControl, LOW); 
       
       Serial.write("H"); 
       delay(200);  
@@ -45,4 +53,6 @@ void loop(){
     
    //delay(100);   
   //delay(1000);
-}
+
+  }  
+  }
